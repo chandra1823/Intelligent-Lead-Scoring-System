@@ -1,0 +1,20 @@
+from fastapi import FastAPI
+
+from app.api.routes import router
+from app.core.config import settings
+
+
+def create_app() -> FastAPI:
+    app = FastAPI(
+        title=settings.app_name,
+        version=settings.version,
+        description=(
+            "College project backend for Lead Scoring. "
+            "This API serves health checks and lead conversion prediction."
+        ),
+    )
+    app.include_router(router)
+    return app
+
+
+app = create_app()
