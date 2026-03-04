@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lead Scoring Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/frontend/styles.css" />
+</head>
+<body class="light-bg">
+  <div class="top-line"></div>
+  <main class="page-wrap">
+    <header class="dashboard-nav">
+      <a class="pill" href="/ui">Lead Scoring Agent</a>
+    </header>
+
+    <section class="dashboard-shell">
+      <div class="left-panel">
+        <div class="heading-row">
+          <h1>Lead Conversion Predictor</h1>
+          <span class="live-badge">Live Demo</span>
+        </div>
+        <p>
+          Enter lead behavior metrics and let the backend model estimate conversion probability instantly.
+        </p>
+
+        <form id="predictForm" class="upload-box">
+          <div class="upload-icon">↑</div>
+          <h2>Input Lead Features</h2>
+          <p>Use numeric values to run the model against your FastAPI backend.</p>
+
+          <div class="form-stack">
+            <label>
+              Total Time Spent on Website
+              <input type="number" step="0.01" min="0" id="timeSpent" placeholder="e.g. 180" required />
+            </label>
+            <label>
+              Page Views Per Visit
+              <input type="number" step="0.01" min="0" id="pageViews" placeholder="e.g. 2.4" required />
+            </label>
+            <label>
+              Total Visits
+              <input type="number" step="0.01" min="0" id="totalVisits" placeholder="e.g. 5" required />
+            </label>
+          </div>
+
+          <button class="btn btn-primary btn-block" type="submit">Run Prediction →</button>
+        </form>
+      </div>
+
+      <div class="right-panel">
+        <div class="terminal-head">
+          <div class="dots">
+            <span></span><span></span><span></span>
+          </div>
+          <p>prediction_output.json</p>
+        </div>
+
+        <div class="terminal-body">
+          <p id="statusText" class="muted-center">Waiting for model output...</p>
+          <div id="resultBlock" class="hidden result-grid">
+            <div class="result-item">
+              <span>Prediction</span>
+              <strong id="prediction"></strong>
+            </div>
+            <div class="result-item">
+              <span>Probability</span>
+              <strong id="probability"></strong>
+            </div>
+            <div class="result-item">
+              <span>Label</span>
+              <strong id="label"></strong>
+            </div>
+            <div class="result-item">
+              <span>Model</span>
+              <strong id="model"></strong>
+            </div>
+            <div class="result-item full-width">
+              <span>Explanation</span>
+              <strong id="explain"></strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/frontend/dashboard.js"></script>
+</body>
+</html>
