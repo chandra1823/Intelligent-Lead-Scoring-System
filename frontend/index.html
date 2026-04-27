@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intelligent Lead Scoring</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/frontend/styles.css" />
+</head>
+<body class="light-bg">
+  <div class="top-line"></div>
+  <main class="page-wrap">
+    <header class="nav">
+      <div class="brand">
+        <span class="brand-icon">AI</span>
+        <span class="brand-name">LeadIQ</span>
+      </div>
+      <nav class="menu">
+        <a href="#features">Features</a>
+        <a href="#workflow">Workflow</a>
+        <a href="/docs">Docs</a>
+      </nav>
+      <a class="btn btn-primary" href="/ui/dashboard">Launch Dashboard</a>
+    </header>
+
+    <section class="hero-grid">
+      <div class="hero-left">
+        <h1>
+          Intelligent Lead
+          <br />
+          Scoring for <span class="accent">Admission</span>
+          <br />
+          Teams
+        </h1>
+        <p>
+          Predict conversion intent from lead engagement behavior and prioritize
+          follow-ups with a clean, explainable college project stack.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/ui/dashboard">Launch Dashboard</a>
+          <a class="btn btn-secondary" href="#workflow">View Workflow</a>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <article class="metric-card">
+          <h3>Model Accuracy</h3>
+          <strong>~92%</strong>
+        </article>
+        <article class="metric-card">
+          <h3>Response Time</h3>
+          <strong>&lt; 300ms</strong>
+        </article>
+        <article class="metric-card">
+          <h3>Scoring Features</h3>
+          <strong>3 Core Signals</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="info-grid" id="features">
+      <article class="surface-card">
+        <h2>Why this project stands out</h2>
+        <ul>
+          <li>FastAPI backend with reusable prediction endpoints.</li>
+          <li>Dashboard-driven scoring for presentation/demo usage.</li>
+          <li>Fallback scorer ensures smooth offline demo execution.</li>
+        </ul>
+      </article>
+      <article class="surface-card" id="workflow">
+        <h2>Workflow</h2>
+        <ol>
+          <li>Enter lead engagement values.</li>
+          <li>Run model prediction from backend.</li>
+          <li>Review conversion probability and decision label.</li>
+        </ol>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
