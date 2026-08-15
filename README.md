@@ -72,7 +72,15 @@ python scripts/train_model.py
 uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-Open http://127.0.0.1:8000/ui
+Then open:
+
+| URL | Purpose |
+|---|---|
+| http://127.0.0.1:8000/ui/dashboard | **Operations console** — queue, sources, training, monitoring |
+| http://127.0.0.1:8000/ui | Landing page |
+| http://127.0.0.1:8000/ui/scorer | Single-lead scoring form |
+| http://127.0.0.1:8000/ui/roadmap | Phase 1 / Phase 2 roadmap |
+| http://127.0.0.1:8000/docs | OpenAPI docs |
 
 ### With Docker
 
@@ -82,6 +90,27 @@ docker compose up --build
 
 Brings up the API on port 8000 with Postgres behind it. The base model is trained
 during the image build.
+
+---
+
+## The console
+
+`/ui/dashboard` is the working surface — a left-rail app with seven views, served
+as three static files with no build step.
+
+| View | What it's for |
+|---|---|
+| **Overview** | Lead counts, conversion rate, queue value, top-decile lift, model tier and health |
+| **Lead Queue** | The call list. Ranked, capacity-aware, filterable by band and source; click a row for the detail drawer |
+| **Score a Lead** | Try the model on one record, with drivers and a next action |
+| **Sources** | Connect a CRM, review and correct the schema mapping, sync, push scores back, inspect sync history |
+| **Canonical Schema** | Every field a source can map onto, grouped and described |
+| **Model & Training** | Cold-start tier, leakage screen, holdout metrics, version history, retrain |
+| **Monitoring** | Drift signals, calibration reliability per score band, decile lift |
+
+The lead drawer explains a score field by field, suggests a next action, records
+the outcome, and shows the canonical record behind it. Recording outcomes there
+is what moves a workspace up the cold-start tiers.
 
 ---
 
@@ -322,7 +351,7 @@ ml/
   registry.py         model resolution and caching
 connectors/           the LeadSource protocol and adapters
 mcp_server/           MCP tools, resources, prompts
-frontend/             landing page + dashboard
+frontend/             landing page, console (app.*), legacy scorer
 docs/roadmap.html     Phase 1 / Phase 2 roadmap
 *.ipynb               original EDA / modelling / calibration notebooks
 ```

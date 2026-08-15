@@ -170,6 +170,16 @@ class TestConnectorLifecycle(unittest.TestCase):
 
         self.assertNotEqual(top_value, top_probability, "deal value had no effect on ranking")
 
+    def test_08b_queue_rows_carry_their_canonical_payload(self) -> None:
+        """The console explains a queue row without a second round trip."""
+        lead = self.client.get("/v1/leads/priority?limit=1").json()["leads"][0]
+
+        self.assertIn("payload", lead)
+        self.assertTrue(lead["payload"], "queue rows must include canonical fields")
+
+        explained = self.client.post("/explain", json=lead["payload"])
+        self.assertEqual(explained.status_code, 200)
+
     def test_09_sync_history_is_recorded(self) -> None:
         runs = self.client.get(f"/v1/sources/{self.source_id}/runs").json()["runs"]
 

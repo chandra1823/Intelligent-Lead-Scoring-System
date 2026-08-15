@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeadIQ — Lead Scoring Console</title>
+  <link rel="stylesheet" href="/frontend/app.css?v=2.0.0" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- ─────────────────────────── sidebar ─────────────────────────── -->
+    <aside class="sidebar">
+      <a class="brand" href="/ui">
+        <span class="brand-mark">IQ</span>
+        <span class="brand-text">
+          <strong>LeadIQ</strong>
+          <em>Scoring Console</em>
+        </span>
+      </a>
+
+      <nav class="nav" id="nav">
+        <p class="nav-group">Work</p>
+        <a class="nav-item" href="#/overview"   data-view="overview"><span class="nav-ico">▤</span>Overview</a>
+        <a class="nav-item" href="#/queue"      data-view="queue"><span class="nav-ico">▦</span>Lead Queue<span class="nav-count" id="navQueueCount"></span></a>
+        <a class="nav-item" href="#/score"      data-view="score"><span class="nav-ico">◈</span>Score a Lead</a>
+
+        <p class="nav-group">Data</p>
+        <a class="nav-item" href="#/sources"    data-view="sources"><span class="nav-ico">⛁</span>Sources<span class="nav-count" id="navSourceCount"></span></a>
+        <a class="nav-item" href="#/schema"     data-view="schema"><span class="nav-ico">⌗</span>Canonical Schema</a>
+
+        <p class="nav-group">Model</p>
+        <a class="nav-item" href="#/model"      data-view="model"><span class="nav-ico">◑</span>Model &amp; Training</a>
+        <a class="nav-item" href="#/monitoring" data-view="monitoring"><span class="nav-ico">◔</span>Monitoring<span class="nav-dot" id="navHealthDot"></span></a>
+      </nav>
+
+      <div class="sidebar-foot">
+        <a class="side-link" href="/ui/roadmap">Roadmap</a>
+        <a class="side-link" href="/docs">API docs</a>
+      </div>
+    </aside>
+
+    <!-- ─────────────────────────── main ─────────────────────────── -->
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs">
+          <h1 id="viewTitle">Overview</h1>
+          <p id="viewSubtitle">Pipeline health at a glance</p>
+        </div>
+        <div class="topbar-right">
+          <div class="model-chip" id="modelChip" title="Active scoring model">
+            <span class="spinner-sm"></span> loading…
+          </div>
+          <button class="btn btn-ghost" id="refreshBtn" title="Refresh">↻</button>
+        </div>
+      </header>
+
+      <main class="canvas" id="view"></main>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────── drawer ─────────────────────────── -->
+  <div class="drawer-scrim" id="drawerScrim" hidden></div>
+  <aside class="drawer" id="drawer" hidden aria-label="Lead detail">
+    <header class="drawer-head">
+      <div>
+        <h2 id="drawerTitle">Lead</h2>
+        <p id="drawerSub"></p>
+      </div>
+      <button class="btn btn-ghost" id="drawerClose" aria-label="Close">✕</button>
+    </header>
+    <div class="drawer-body" id="drawerBody"></div>
+  </aside>
+
+  <div class="toasts" id="toasts"></div>
+
+  <script src="/frontend/app.js?v=2.0.0"></script>
+</body>
+</html>

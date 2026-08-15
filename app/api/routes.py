@@ -51,6 +51,13 @@ def ui_landing() -> FileResponse:
 
 @router.get("/ui/dashboard", include_in_schema=False)
 def ui_dashboard() -> FileResponse:
+    """The operations console: queue, sources, training, monitoring."""
+    return FileResponse(FRONTEND_DIR / "app.html")
+
+
+@router.get("/ui/scorer", include_in_schema=False)
+def ui_scorer() -> FileResponse:
+    """The original single-lead scoring form, kept for the Phase 1 demo."""
     return FileResponse(FRONTEND_DIR / "dashboard.html")
 
 

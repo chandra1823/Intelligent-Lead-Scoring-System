@@ -139,14 +139,23 @@ class TestApiRoutes(unittest.TestCase):
         self.assertIn(f"{data['probability'] * 100:.1f}%", data["summary"])
 
     def test_ui_routes_serve_html(self) -> None:
-        for path in ("/ui", "/ui/dashboard", "/ui/roadmap"):
+        for path in ("/ui", "/ui/dashboard", "/ui/scorer", "/ui/roadmap"):
             with self.subTest(path=path):
                 response = self.client.get(path)
                 self.assertEqual(response.status_code, 200)
                 self.assertIn("text/html", response.headers["content-type"])
 
+    def test_dashboard_serves_the_console(self) -> None:
+        """/ui/dashboard is the operations console, not the single-lead form."""
+        body = self.client.get("/ui/dashboard").text
+
+        self.assertIn("Scoring Console", body)
+        self.assertIn("/frontend/app.js", body)
+
     def test_static_assets_are_mounted(self) -> None:
-        self.assertEqual(self.client.get("/frontend/dashboard.js").status_code, 200)
+        for asset in ("/frontend/app.js", "/frontend/app.css", "/frontend/dashboard.js"):
+            with self.subTest(asset=asset):
+                self.assertEqual(self.client.get(asset).status_code, 200)
 
 
 if __name__ == "__main__":

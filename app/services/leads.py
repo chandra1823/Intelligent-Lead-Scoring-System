@@ -361,13 +361,20 @@ def priority_queue(
         base_rate=base_rate,
     )
 
+    # Attach each lead's canonical fields so a caller can explain a queue entry
+    # without a second round trip per row.
+    by_id = {lead.id: lead for lead in candidates}
+    rows = []
     for item in ranked:
-        lead = next((c for c in candidates if c.id == item.lead_id), None)
-        item_dict = item.to_dict()
-        item_dict["payload"] = lead.payload if lead else {}
+        row = item.to_dict()
+        lead = by_id.get(item.lead_id)
+        row["payload"] = lead.payload if lead else {}
+        row["source_id"] = lead.source_id if lead else None
+        row["converted"] = lead.converted if lead else None
+        rows.append(row)
 
     return {
-        "leads": [item.to_dict() for item in ranked],
+        "leads": rows,
         "summary": queue_summary(ranked, capacity),
         "strategy": strategy,
         "model_tier": model.tier,
