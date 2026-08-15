@@ -7,13 +7,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/frontend/styles.css" />
+  <link rel="stylesheet" href="/frontend/styles.css?v=2.0.0" />
 </head>
 <body class="light-bg">
   <div class="top-line"></div>
   <main class="page-wrap">
     <header class="dashboard-nav">
       <a class="pill" href="/ui">Lead Scoring Agent</a>
+      <a class="pill" href="/ui/roadmap">Roadmap</a>
+      <span class="pill pill-muted" id="modelBadge">loading model…</span>
     </header>
 
     <section class="dashboard-shell">
@@ -23,30 +25,38 @@
           <span class="live-badge">Live Demo</span>
         </div>
         <p>
-          Enter lead behavior metrics and let the backend model estimate conversion probability instantly.
+          Enter what you know about the lead. Behaviour metrics are required; every
+          other field falls back to the typical value from the training data.
         </p>
 
         <form id="predictForm" class="upload-box">
-          <div class="upload-icon">↑</div>
-          <h2>Input Lead Features</h2>
-          <p>Use numeric values to run the model against your FastAPI backend.</p>
+          <h2>Lead behaviour</h2>
+          <p>Signals captured by the website tracker.</p>
 
           <div class="form-stack">
             <label>
-              Total Time Spent on Website
-              <input type="number" step="0.01" min="0" id="timeSpent" placeholder="e.g. 180" required />
+              Total Time Spent on Website <small>(seconds)</small>
+              <input type="number" step="0.01" min="0" id="timeSpent" placeholder="e.g. 1200" required />
             </label>
             <label>
               Page Views Per Visit
-              <input type="number" step="0.01" min="0" id="pageViews" placeholder="e.g. 2.4" required />
+              <input type="number" step="0.01" min="0" id="pageViews" placeholder="e.g. 5" required />
             </label>
             <label>
               Total Visits
-              <input type="number" step="0.01" min="0" id="totalVisits" placeholder="e.g. 5" required />
+              <input type="number" step="0.01" min="0" id="totalVisits" placeholder="e.g. 8" required />
             </label>
           </div>
 
-          <button class="btn btn-primary btn-block" type="submit">Run Prediction →</button>
+          <h2 class="section-divider">Lead profile <small>(optional)</small></h2>
+          <div class="form-stack" id="categoricalFields">
+            <p class="muted-center">Loading options…</p>
+          </div>
+
+          <div class="button-row">
+            <button class="btn btn-primary btn-block" type="submit">Run Prediction →</button>
+            <button class="btn btn-secondary btn-block" type="button" id="sampleBtn">Load sample lead</button>
+          </div>
         </form>
       </div>
 
@@ -60,26 +70,40 @@
 
         <div class="terminal-body">
           <p id="statusText" class="muted-center">Waiting for model output...</p>
-          <div id="resultBlock" class="hidden result-grid">
-            <div class="result-item">
-              <span>Prediction</span>
-              <strong id="prediction"></strong>
+
+          <div id="resultBlock" class="hidden">
+            <div class="score-hero">
+              <span>Conversion probability</span>
+              <strong id="probability">—</strong>
+              <div class="score-bar"><div class="score-fill" id="scoreFill"></div></div>
+              <em id="label"></em>
             </div>
-            <div class="result-item">
-              <span>Probability</span>
-              <strong id="probability"></strong>
+
+            <div class="result-grid">
+              <div class="result-item">
+                <span>Prediction</span>
+                <strong id="prediction"></strong>
+              </div>
+              <div class="result-item">
+                <span>Ensemble</span>
+                <strong id="model"></strong>
+              </div>
             </div>
-            <div class="result-item">
-              <span>Label</span>
-              <strong id="label"></strong>
-            </div>
-            <div class="result-item">
-              <span>Model</span>
-              <strong id="model"></strong>
-            </div>
+
             <div class="result-item full-width">
-              <span>Explanation</span>
+              <span>Per-model scores</span>
+              <div id="components" class="component-list"></div>
+            </div>
+
+            <div class="result-item full-width">
+              <span>Why this score</span>
               <strong id="explain"></strong>
+              <div id="contributions" class="contribution-list"></div>
+            </div>
+
+            <div class="result-item full-width">
+              <span>Suggested next action</span>
+              <div id="nextAction" class="next-action"></div>
             </div>
           </div>
         </div>
@@ -87,6 +111,6 @@
     </section>
   </main>
 
-  <script src="/frontend/dashboard.js"></script>
+  <script src="/frontend/dashboard.js?v=2.0.0"></script>
 </body>
 </html>
