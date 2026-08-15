@@ -1,5 +1,26 @@
 .venv/
+venv/
 __pycache__/
 *.pyc
+*.egg-info/
+build/
+dist/
+
+# Trained models and the local database
 artifacts/
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# Secrets
 .env
+.env.*
+!.env.example
+
+# Local editor / tooling config
+.claude/
+
+.DS_Store
+.ruff_cache/
+.pytest_cache/

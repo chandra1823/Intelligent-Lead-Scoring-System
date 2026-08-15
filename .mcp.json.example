@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "lead-scoring": {
+      "command": "uv",
+      "args": ["run", "--directory", "/absolute/path/to/Intelligent-Lead-Scoring-System", "lead-mcp"],
+      "env": {
+        "LEAD_API_SECRET_KEY": "your-secret-key-here"
+      }
+    }
+  }
+}

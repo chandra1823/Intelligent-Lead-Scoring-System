@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/frontend/styles.css" />
+  <link rel="stylesheet" href="/frontend/styles.css?v=2.0.0" />
 </head>
 <body class="light-bg">
   <div class="top-line"></div>
@@ -46,16 +46,19 @@
 
       <div class="hero-right">
         <article class="metric-card">
-          <h3>Model Accuracy</h3>
-          <strong>~92%</strong>
+          <h3>Holdout ROC-AUC</h3>
+          <strong id="statAuc">—</strong>
+          <p class="metric-note">hybrid ensemble, leakage-free</p>
         </article>
         <article class="metric-card">
-          <h3>Response Time</h3>
-          <strong>&lt; 300ms</strong>
+          <h3>Holdout Accuracy</h3>
+          <strong id="statAcc">—</strong>
+          <p class="metric-note" id="statBaseline">vs majority baseline</p>
         </article>
         <article class="metric-card">
           <h3>Scoring Features</h3>
-          <strong>3 Core Signals</strong>
+          <strong id="statFeatures">18 signals</strong>
+          <p class="metric-note">3 behavioural + 15 profile</p>
         </article>
       </div>
     </section>
@@ -64,9 +67,10 @@
       <article class="surface-card">
         <h2>Why this project stands out</h2>
         <ul>
-          <li>FastAPI backend with reusable prediction endpoints.</li>
-          <li>Dashboard-driven scoring for presentation/demo usage.</li>
-          <li>Fallback scorer ensures smooth offline demo execution.</li>
+          <li>Calibrated RandomForest + XGBoost + LightGBM ensemble, weighted by validation ROC-AUC.</li>
+          <li>Post-contact sales columns (<code>Tags</code>, <code>Lead Quality</code>) excluded as target leakage.</li>
+          <li>Per-field explanations measured by ablation, not canned text.</li>
+          <li>Heuristic fallback keeps the demo alive without trained artifacts.</li>
         </ul>
       </article>
       <article class="surface-card" id="workflow">
@@ -79,5 +83,22 @@
       </article>
     </section>
   </main>
+
+  <script>
+    fetch("/metrics")
+      .then((response) => response.json())
+      .then((data) => {
+        const hybrid = data.metrics && data.metrics.hybrid_ensemble;
+        if (!hybrid) return;
+        document.getElementById("statAuc").textContent = hybrid.roc_auc.toFixed(3);
+        document.getElementById("statAcc").textContent = (hybrid.accuracy * 100).toFixed(1) + "%";
+        const baseline = data.dataset && data.dataset.majority_class_accuracy;
+        if (baseline) {
+          document.getElementById("statBaseline").textContent =
+            "vs " + (baseline * 100).toFixed(1) + "% majority baseline";
+        }
+      })
+      .catch(() => {});
+  </script>
 </body>
 </html>
