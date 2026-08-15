@@ -1,0 +1,34 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      LEAD_API_DATABASE_URL: postgresql+psycopg://leads:leads@db:5432/leadscoring
+      LEAD_API_SECRET_KEY: ${LEAD_API_SECRET_KEY:-dev-only-insecure-key-change-me}
+      LEAD_API_REQUIRE_API_KEY: ${LEAD_API_REQUIRE_API_KEY:-false}
+    volumes:
+      # Trained tenant models survive a container rebuild.
+      - artifacts:/app/artifacts
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: leads
+      POSTGRES_PASSWORD: leads
+      POSTGRES_DB: leadscoring
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leads -d leadscoring"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
+  artifacts:

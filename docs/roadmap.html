@@ -1,0 +1,1186 @@
+<title>Lead Scoring Platform Roadmap</title>
+<style>
+  :root {
+    --paper:        #F4F6F8;
+    --surface:      #FFFFFF;
+    --surface-sunk: #EDF0F3;
+    --ink:          #161B22;
+    --ink-soft:     #3D4757;
+    --muted:        #64707F;
+    --faint:        #8B96A5;
+    --rule:         #DDE3E9;
+    --rule-strong:  #C4CDD6;
+
+    --accent:       #0D7A70;
+    --accent-soft:  #E2F0EE;
+    --accent-ink:   #0A5F57;
+
+    --shipped:      #2E7D5B;
+    --shipped-soft: #E3F1EA;
+    --risk:         #9A6116;
+    --risk-soft:    #F6EDDE;
+    --gap:          #A03D46;
+    --gap-soft:     #F7E7E8;
+
+    --shadow: 0 1px 2px rgba(22,27,34,.05), 0 8px 24px -12px rgba(22,27,34,.14);
+
+    --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --serif: Charter, "Bitstream Charter", "Iowan Old Style", "Source Serif Pro", Georgia, Cambria, serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:        #10141A;
+      --surface:      #171D25;
+      --surface-sunk: #1D242E;
+      --ink:          #E9EDF2;
+      --ink-soft:     #C2CBD6;
+      --muted:        #93A0AE;
+      --faint:        #6E7C8B;
+      --rule:         #2A323D;
+      --rule-strong:  #3B4553;
+
+      --accent:       #3FBFB2;
+      --accent-soft:  #12312F;
+      --accent-ink:   #6FD6CB;
+
+      --shipped:      #5FBF8F;
+      --shipped-soft: #142E23;
+      --risk:         #D9A055;
+      --risk-soft:    #2E2415;
+      --gap:          #DB8189;
+      --gap-soft:     #2E1A1D;
+
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.6);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:        #10141A;
+    --surface:      #171D25;
+    --surface-sunk: #1D242E;
+    --ink:          #E9EDF2;
+    --ink-soft:     #C2CBD6;
+    --muted:        #93A0AE;
+    --faint:        #6E7C8B;
+    --rule:         #2A323D;
+    --rule-strong:  #3B4553;
+
+    --accent:       #3FBFB2;
+    --accent-soft:  #12312F;
+    --accent-ink:   #6FD6CB;
+
+    --shipped:      #5FBF8F;
+    --shipped-soft: #142E23;
+    --risk:         #D9A055;
+    --risk-soft:    #2E2415;
+    --gap:          #DB8189;
+    --gap-soft:     #2E1A1D;
+
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.65;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 28px 96px;
+  }
+
+  .col {
+    max-width: 68ch;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--sans);
+    color: var(--ink);
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  h1 { font-size: clamp(2.1rem, 5vw, 3.1rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.06; }
+  h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 750; letter-spacing: -.022em; line-height: 1.15; }
+  h3 { font-size: 1.19rem; font-weight: 700; letter-spacing: -.014em; }
+  h4 { font-size: .98rem; font-weight: 700; letter-spacing: -.005em; }
+
+  p { margin: 0; }
+
+  a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: .85em;
+    background: var(--surface-sunk);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: .08em .34em;
+    color: var(--ink-soft);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .13em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    padding: 72px 0 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .masthead .lede {
+    font-size: 1.22rem;
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+
+  .statline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    font-family: var(--mono);
+    font-size: .76rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    padding-top: 6px;
+  }
+  .statline b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- sections ---------- */
+
+  section { padding-top: 64px; }
+
+  .sec-head {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .stack { display: flex; flex-direction: column; gap: 18px; }
+  .stack-tight { display: flex; flex-direction: column; gap: 11px; }
+
+  /* ---------- status chips ---------- */
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: .68rem;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .chip-shipped  { background: var(--shipped-soft); color: var(--shipped); }
+  .chip-proposed { background: var(--accent-soft);  color: var(--accent-ink); }
+  .chip-gap      { background: var(--gap-soft);     color: var(--gap); }
+  .chip-risk     { background: var(--risk-soft);    color: var(--risk); }
+
+  /* ---------- cards ---------- */
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 26px 28px;
+    box-shadow: var(--shadow);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(288px, 1fr)); gap: 18px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(216px, 1fr)); gap: 16px; }
+
+  /* ---------- metric tiles ---------- */
+
+  .tile {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 9px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .tile .val {
+    font-family: var(--sans);
+    font-size: 1.85rem;
+    font-weight: 780;
+    letter-spacing: -.03em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .tile .cap { font-family: var(--sans); font-size: .82rem; color: var(--muted); line-height: 1.4; }
+
+  /* ---------- tables ---------- */
+
+  .scroller { overflow-x: auto; border: 1px solid var(--rule); border-radius: 9px; background: var(--surface); }
+
+  table { border-collapse: collapse; width: 100%; font-family: var(--sans); font-size: .89rem; }
+
+  th, td {
+    text-align: left;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  th {
+    font-family: var(--mono);
+    font-size: .69rem;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: var(--muted);
+    font-weight: 600;
+    white-space: nowrap;
+    background: var(--surface-sunk);
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tr.highlight td { background: var(--accent-soft); font-weight: 650; }
+
+  /* ---------- track cards ---------- */
+
+  .track {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 24px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .track-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .track-id {
+    font-family: var(--mono);
+    font-size: .78rem;
+    font-weight: 700;
+    color: var(--accent-ink);
+    letter-spacing: .06em;
+  }
+  .track ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 7px; }
+  .track li { color: var(--ink-soft); font-size: .96rem; }
+  .track li b { color: var(--ink); font-weight: 650; }
+
+  .accept {
+    font-family: var(--sans);
+    font-size: .85rem;
+    color: var(--muted);
+    border-top: 1px dashed var(--rule-strong);
+    padding-top: 12px;
+  }
+  .accept b { color: var(--ink-soft); font-family: var(--mono); font-size: .69rem; text-transform: uppercase; letter-spacing: .09em; }
+
+  /* ---------- code block ---------- */
+
+  pre {
+    font-family: var(--mono);
+    font-size: .8rem;
+    line-height: 1.62;
+    background: var(--surface-sunk);
+    border: 1px solid var(--rule);
+    border-radius: 9px;
+    padding: 18px 20px;
+    overflow-x: auto;
+    margin: 0;
+    color: var(--ink-soft);
+    tab-size: 2;
+  }
+  pre .c { color: var(--faint); }
+  pre .k { color: var(--accent-ink); font-weight: 600; }
+
+  /* ---------- milestone rail ---------- */
+
+  .rail { display: flex; flex-direction: column; gap: 0; }
+  .ms {
+    display: grid;
+    grid-template-columns: 132px 1fr;
+    gap: 26px;
+    padding: 24px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .ms:last-child { border-bottom: 1px solid var(--rule); }
+  .ms-meta { display: flex; flex-direction: column; gap: 7px; }
+  .ms-num {
+    font-family: var(--mono);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -.02em;
+    line-height: 1;
+  }
+  .ms-eff { font-family: var(--mono); font-size: .71rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+  .ms-body { display: flex; flex-direction: column; gap: 9px; }
+  .ms-body p { color: var(--ink-soft); font-size: .98rem; }
+  .ms-ships { font-family: var(--sans); font-size: .87rem; color: var(--muted); }
+  .ms-ships b { color: var(--ink-soft); font-weight: 650; }
+
+  /* ---------- diagram ---------- */
+
+  .figure { display: flex; flex-direction: column; gap: 12px; }
+  .figure .cap { font-family: var(--sans); font-size: .84rem; color: var(--muted); }
+  .diagram-box { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 22px; }
+  svg { display: block; min-width: 660px; }
+
+  .svg-node   { fill: var(--surface-sunk); stroke: var(--rule-strong); }
+  .svg-node-a { fill: var(--accent-soft);  stroke: var(--accent); }
+  .svg-node-s { fill: var(--shipped-soft); stroke: var(--shipped); }
+  .svg-t      { fill: var(--ink); font-family: var(--sans); font-size: 12px; font-weight: 650; }
+  .svg-st     { fill: var(--muted); font-family: var(--mono); font-size: 9.5px; letter-spacing: .05em; }
+  .svg-lbl    { fill: var(--muted); font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .11em; }
+  .svg-line   { stroke: var(--rule-strong); fill: none; stroke-width: 1.5; }
+  .svg-line-a { stroke: var(--accent); fill: none; stroke-width: 1.5; }
+  .svg-line-d { stroke: var(--muted); fill: none; stroke-width: 1.4; stroke-dasharray: 4 3; }
+
+  /* ---------- callout ---------- */
+
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--risk);
+    border-radius: 0 9px 9px 0;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .callout.is-accent { border-left-color: var(--accent); }
+  .callout p { font-size: .98rem; color: var(--ink-soft); }
+
+  .divider { height: 1px; background: var(--rule); margin-top: 64px; }
+
+  footer {
+    padding-top: 40px;
+    font-family: var(--mono);
+    font-size: .74rem;
+    color: var(--faint);
+    text-transform: uppercase;
+    letter-spacing: .09em;
+  }
+
+  ul.plain { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; color: var(--ink-soft); }
+  ul.plain li b { color: var(--ink); font-weight: 650; }
+
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 18px 72px; }
+    .ms { grid-template-columns: 1fr; gap: 12px; }
+    .masthead { padding-top: 48px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <span class="eyebrow">Intelligent Lead Scoring System · Technical Roadmap</span>
+    <h1>From a scoring demo to a lead engine anyone can plug in</h1>
+    <p class="lede">
+      Phase 1 built a calibrated, leakage-free scoring model behind a working API.
+      Phase 2 turned it into a platform a stranger can clone, point at their own CRM,
+      and drive through their own AI assistant.
+    </p>
+    <div class="statline">
+      <span>Phase 1 · <b>Shipped</b></span>
+      <span>Phase 2 · <b>Implemented</b></span>
+      <span>Holdout ROC-AUC · <b>0.896</b></span>
+      <span>Tests · <b>82 passing</b></span>
+      <span>MCP tools · <b>17</b></span>
+    </div>
+  </header>
+
+  <!-- ============================ PHASE 1 ============================ -->
+  <section>
+    <div class="sec-head">
+      <span class="chip chip-shipped">Phase 1 · Shipped</span>
+      <h2>What exists today</h2>
+    </div>
+
+    <div class="col stack">
+      <p>
+        A hybrid ensemble predicts whether a sales lead will convert, and explains
+        each score field by field. It runs entirely on one machine: train from a CSV,
+        serve over FastAPI, score through a browser dashboard.
+      </p>
+    </div>
+
+    <div class="grid-3" style="margin-top: 26px;">
+      <div class="tile">
+        <span class="val">0.896</span>
+        <span class="cap">Holdout ROC-AUC, hybrid ensemble</span>
+      </div>
+      <div class="tile">
+        <span class="val">83.3%</span>
+        <span class="cap">Accuracy vs 61.5% majority baseline</span>
+      </div>
+      <div class="tile">
+        <span class="val">18</span>
+        <span class="cap">Features — 3 behavioural, 15 profile</span>
+      </div>
+    </div>
+
+    <div class="scroller" style="margin-top: 22px;">
+      <table>
+        <thead>
+          <tr><th>Model</th><th>Accuracy</th><th>ROC-AUC</th><th>PR-AUC</th><th>Brier</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>RandomForest</td><td class="num">0.8306</td><td class="num">0.8915</td><td class="num">0.8328</td><td class="num">0.1268</td></tr>
+          <tr><td>XGBoost</td><td class="num">0.8279</td><td class="num">0.8951</td><td class="num">0.8442</td><td class="num">0.1251</td></tr>
+          <tr><td>LightGBM</td><td class="num">0.8252</td><td class="num">0.8915</td><td class="num">0.8403</td><td class="num">0.1277</td></tr>
+          <tr class="highlight"><td>Hybrid ensemble</td><td class="num">0.8333</td><td class="num">0.8957</td><td class="num">0.8434</td><td class="num">0.1245</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout is-accent" style="margin-top: 26px;">
+      <h4>The finding that shaped the model</h4>
+      <p>
+        An earlier version reported ~92% accuracy. That number came from training on
+        columns a sales rep fills in <em>after</em> contacting the lead —
+        <code>Tags = "Closed by Horizzon"</code> converts at 99.4%,
+        <code>Lead Quality = "Worst"</code> at 2.0%. The model was reading its own answer key.
+        Excluding them dropped accuracy to 83.3% and made it real. Phase 2 turns this
+        one-off discovery into an automated check that runs against every customer's data.
+      </p>
+    </div>
+
+    <h3 style="margin-top: 40px;">Shipped in Phase 1</h3>
+    <div class="stack-tight" style="margin-top: 14px;">
+      <ul class="plain">
+        <li><b>Leakage-free feature set</b> — post-contact sales columns excluded, enforced by a test.</li>
+        <li><b>Calibrated hybrid ensemble</b> — RandomForest + XGBoost + LightGBM, isotonic calibration, weighted by AUC lift so a coin-flip model earns zero weight.</li>
+        <li><b>Self-contained pipelines</b> — each artifact preprocesses raw records itself, so training and serving cannot drift apart.</li>
+        <li><b>Ablation explanations</b> — every field's contribution measured by re-scoring the lead with that field reset to baseline.</li>
+        <li><b>Graceful degradation</b> — partial ensemble, then heuristic fallback; the demo never dies.</li>
+        <li><b>24 tests</b> covering leakage, preprocessing, weighting, ranking, API contracts, and fallback.</li>
+      </ul>
+    </div>
+
+    <h3 style="margin-top: 36px;">Honest limits</h3>
+    <div class="stack-tight" style="margin-top: 14px;">
+      <ul class="plain">
+        <li><b>One dataset, one schema.</b> The model only understands X Education's exact columns.</li>
+        <li><b>One user, no memory.</b> No accounts, no database — scores vanish when the request ends.</li>
+        <li><b>Manual entry only.</b> A human types one lead at a time into a form.</li>
+        <li><b>No feedback loop.</b> Nothing records whether the prediction was right.</li>
+        <li><b>Local only.</b> No container, no deployment path, no rate limiting.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================ THE GAP ============================ -->
+  <section>
+    <div class="sec-head">
+      <span class="chip chip-gap">The gap</span>
+      <h2>What "clone it and connect your CRM" actually demands</h2>
+    </div>
+
+    <div class="col stack">
+      <p>
+        The goal sounds like one feature. It is really six problems, and the hardest
+        one is not the MCP server — it is that every customer's data looks different
+        from every other customer's.
+      </p>
+    </div>
+
+    <div class="grid-2" style="margin-top: 26px;">
+      <div class="card stack-tight">
+        <h4>Their columns aren't your columns</h4>
+        <p style="font-size:.95rem;color:var(--ink-soft)">
+          HubSpot calls it <code>hs_analytics_num_page_views</code>. Salesforce calls it something else.
+          A model trained on <code>Page Views Per Visit</code> cannot read either. You need a
+          canonical schema and a mapper that gets from their fields to it.
+        </p>
+      </div>
+      <div class="card stack-tight">
+        <h4>Their answer key isn't yours</h4>
+        <p style="font-size:.95rem;color:var(--ink-soft)">
+          A model trained on ed-tech leads will misprice a B2B SaaS pipeline. Each customer
+          eventually needs a model trained on their own history — but on day one they have
+          no labelled history at all.
+        </p>
+      </div>
+      <div class="card stack-tight">
+        <h4>Scores must go somewhere</h4>
+        <p style="font-size:.95rem;color:var(--ink-soft)">
+          A score in a browser tab changes nothing. It has to land back in the CRM as a
+          field a rep sees, or in a queue their morning starts with.
+        </p>
+      </div>
+      <div class="card stack-tight">
+        <h4>Real data is sensitive</h4>
+        <p style="font-size:.95rem;color:var(--ink-soft)">
+          Names, emails, phone numbers, employers. That brings retention rules, encryption,
+          audit trails, and a very good reason to make self-hosting the default.
+        </p>
+      </div>
+      <div class="card stack-tight">
+        <h4>Models rot</h4>
+        <p style="font-size:.95rem;color:var(--ink-soft)">
+          Campaigns change, seasons change, the mix of traffic changes. Without drift and
+          calibration monitoring, quality decays silently and nobody notices for months.
+        </p>
+      </div>
+      <div class="card stack-tight">
+        <h4>Leakage will recur</h4>
+        <p style="font-size:.95rem;color:var(--ink-soft)">
+          Every CRM has its own <code>Tags</code> column — a status field written after the
+          outcome. Customers will train on it and get a beautiful, worthless model unless
+          the platform catches it for them.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================ ARCHITECTURE ============================ -->
+  <section>
+    <div class="sec-head">
+      <span class="chip chip-shipped">Phase 2 · Implemented</span>
+      <h2>Target architecture</h2>
+    </div>
+
+    <div class="figure">
+      <div class="diagram-box">
+        <svg viewBox="0 0 980 430" width="100%" height="auto" role="img" aria-label="Architecture: lead sources feed a connector layer and canonical schema, then the scoring core and decision layer, consumed by MCP clients, dashboard, and CRM writeback, with an outcome feedback loop returning to training.">
+          <defs>
+            <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+              <path d="M0,0 L7,3 L0,6 z" fill="var(--rule-strong)"/>
+            </marker>
+            <marker id="aha" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+              <path d="M0,0 L7,3 L0,6 z" fill="var(--accent)"/>
+            </marker>
+            <marker id="ahd" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+              <path d="M0,0 L7,3 L0,6 z" fill="var(--muted)"/>
+            </marker>
+          </defs>
+
+          <text x="14" y="22" class="svg-lbl">Sources</text>
+          <text x="248" y="22" class="svg-lbl">Ingest</text>
+          <text x="470" y="22" class="svg-lbl">Core · Phase 1 grown up</text>
+          <text x="790" y="22" class="svg-lbl">Consumers</text>
+
+          <!-- sources -->
+          <rect x="14"  y="42"  width="150" height="40" rx="6" class="svg-node"/>
+          <text x="30"  y="60"  class="svg-t">HubSpot</text>
+          <text x="30"  y="74"  class="svg-st">REST + webhooks</text>
+
+          <rect x="14"  y="94"  width="150" height="40" rx="6" class="svg-node"/>
+          <text x="30"  y="112" class="svg-t">Salesforce</text>
+          <text x="30"  y="126" class="svg-st">bulk api</text>
+
+          <rect x="14"  y="146" width="150" height="40" rx="6" class="svg-node"/>
+          <text x="30"  y="164" class="svg-t">Zoho · Pipedrive</text>
+          <text x="30"  y="178" class="svg-st">rest</text>
+
+          <rect x="14"  y="198" width="150" height="40" rx="6" class="svg-node"/>
+          <text x="30"  y="216" class="svg-t">Sheets · CSV</text>
+          <text x="30"  y="230" class="svg-st">upload</text>
+
+          <rect x="14"  y="250" width="150" height="40" rx="6" class="svg-node"/>
+          <text x="30"  y="268" class="svg-t">Webhook</text>
+          <text x="30"  y="282" class="svg-st">any form</text>
+
+          <!-- connector layer -->
+          <rect x="212" y="42" width="168" height="126" rx="8" class="svg-node-a"/>
+          <text x="228" y="64"  class="svg-t">Connector layer</text>
+          <text x="228" y="82"  class="svg-st">LeadSource protocol</text>
+          <text x="228" y="100" class="svg-st">incremental sync</text>
+          <text x="228" y="118" class="svg-st">rate-limit backoff</text>
+          <text x="228" y="136" class="svg-st">credential vault</text>
+          <text x="228" y="154" class="svg-st">score writeback</text>
+
+          <rect x="212" y="186" width="168" height="104" rx="8" class="svg-node-a"/>
+          <text x="228" y="208" class="svg-t">Schema mapper</text>
+          <text x="228" y="226" class="svg-st">fuzzy + type match</text>
+          <text x="228" y="244" class="svg-st">llm-assisted assist</text>
+          <text x="228" y="262" class="svg-st">leakage detector</text>
+          <text x="228" y="280" class="svg-st">human confirm</text>
+
+          <!-- canonical -->
+          <rect x="212" y="308" width="168" height="46" rx="8" class="svg-node"/>
+          <text x="228" y="330" class="svg-t">Canonical lead</text>
+          <text x="228" y="346" class="svg-st">crm-agnostic schema</text>
+
+          <!-- core -->
+          <rect x="428" y="42" width="176" height="104" rx="8" class="svg-node-s"/>
+          <text x="444" y="64"  class="svg-t">Scoring core</text>
+          <text x="444" y="82"  class="svg-st">rf + xgb + lgbm</text>
+          <text x="444" y="100" class="svg-st">isotonic calibration</text>
+          <text x="444" y="118" class="svg-st">auc-lift weights</text>
+          <text x="444" y="136" class="svg-st">ablation explain</text>
+
+          <rect x="428" y="164" width="176" height="86" rx="8" class="svg-node-a"/>
+          <text x="444" y="186" class="svg-t">Training service</text>
+          <text x="444" y="204" class="svg-st">per-tenant models</text>
+          <text x="444" y="222" class="svg-st">cold-start tiers</text>
+          <text x="444" y="240" class="svg-st">champion/challenger</text>
+
+          <rect x="428" y="268" width="176" height="86" rx="8" class="svg-node-a"/>
+          <text x="444" y="290" class="svg-t">Decision layer</text>
+          <text x="444" y="308" class="svg-st">capacity ranking</text>
+          <text x="444" y="326" class="svg-st">expected value</text>
+          <text x="444" y="344" class="svg-st">next best action</text>
+
+          <!-- platform bar -->
+          <rect x="428" y="372" width="176" height="40" rx="8" class="svg-node"/>
+          <text x="444" y="390" class="svg-t">Platform</text>
+          <text x="444" y="404" class="svg-st">postgres · jobs · auth</text>
+
+          <!-- consumers -->
+          <rect x="652" y="42" width="164" height="86" rx="8" class="svg-node-a"/>
+          <text x="668" y="64"  class="svg-t">MCP server</text>
+          <text x="668" y="82"  class="svg-st">claude · cursor</text>
+          <text x="668" y="100" class="svg-st">tools · resources</text>
+          <text x="668" y="118" class="svg-st">stdio + http</text>
+
+          <rect x="652" y="146" width="164" height="64" rx="8" class="svg-node"/>
+          <text x="668" y="168" class="svg-t">Dashboard</text>
+          <text x="668" y="186" class="svg-st">queue · analytics</text>
+          <text x="668" y="202" class="svg-st">drift monitors</text>
+
+          <rect x="652" y="228" width="164" height="64" rx="8" class="svg-node"/>
+          <text x="668" y="250" class="svg-t">REST API</text>
+          <text x="668" y="268" class="svg-st">scoped api keys</text>
+          <text x="668" y="284" class="svg-st">batch + single</text>
+
+          <rect x="652" y="310" width="164" height="64" rx="8" class="svg-node"/>
+          <text x="668" y="332" class="svg-t">CRM writeback</text>
+          <text x="668" y="350" class="svg-st">score field · queue</text>
+          <text x="668" y="366" class="svg-st">rep sees it</text>
+
+          <!-- flows -->
+          <path d="M164,62  L206,62"  class="svg-line" marker-end="url(#ah)"/>
+          <path d="M164,114 L206,100" class="svg-line" marker-end="url(#ah)"/>
+          <path d="M164,166 L206,130" class="svg-line" marker-end="url(#ah)"/>
+          <path d="M164,218 L206,222" class="svg-line" marker-end="url(#ah)"/>
+          <path d="M164,270 L206,250" class="svg-line" marker-end="url(#ah)"/>
+
+          <path d="M296,168 L296,182" class="svg-line-a" marker-end="url(#aha)"/>
+          <path d="M296,290 L296,304" class="svg-line-a" marker-end="url(#aha)"/>
+
+          <path d="M380,330 L404,330 L404,96 L422,96" class="svg-line-a" marker-end="url(#aha)"/>
+          <path d="M380,331 L404,331 L404,206 L422,206" class="svg-line-a" marker-end="url(#aha)"/>
+
+          <path d="M516,146 L516,160" class="svg-line-a" marker-end="url(#aha)"/>
+          <path d="M516,250 L516,264" class="svg-line-a" marker-end="url(#aha)"/>
+
+          <path d="M604,300 L628,300 L628,86  L646,86"  class="svg-line-a" marker-end="url(#aha)"/>
+          <path d="M604,301 L628,301 L628,178 L646,178" class="svg-line-a" marker-end="url(#aha)"/>
+          <path d="M604,302 L628,302 L628,260 L646,260" class="svg-line-a" marker-end="url(#aha)"/>
+          <path d="M604,303 L628,303 L628,342 L646,342" class="svg-line-a" marker-end="url(#aha)"/>
+
+          <!-- feedback loop -->
+          <path d="M734,374 L734,418 L120,418 L120,300 L206,300" class="svg-line-d" marker-end="url(#ahd)"/>
+          <text x="386" y="414" class="svg-lbl">Outcomes feed back → retrain</text>
+        </svg>
+      </div>
+      <p class="cap">
+        Phase 1 is the green block. Everything teal is Phase 2. The dashed line is the loop
+        that makes the system improve instead of merely run.
+      </p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================ TRACKS ============================ -->
+  <section>
+    <div class="sec-head">
+      <span class="chip chip-shipped">Phase 2 · Six tracks, all built</span>
+      <h2>What to build</h2>
+    </div>
+
+    <div class="col stack" style="margin-bottom: 26px;">
+      <p>
+        These are workstreams, not steps — lettered rather than numbered because there
+        was no single required order. All six are now implemented; each card lists what
+        was built and the module it lives in.
+      </p>
+    </div>
+
+    <div class="stack">
+
+      <div class="track">
+        <div class="track-head">
+          <span class="track-id">TRACK A</span>
+          <h3>MCP server — make it agent-native</h3>
+        </div>
+        <p style="color:var(--ink-soft);font-size:.98rem">
+          The headline feature. Someone adds your server to Claude Desktop or Cursor and
+          asks "which leads should I call today?" — in plain language, against their real pipeline.
+        </p>
+        <ul>
+          <li><b>Tools</b> — <code>score_lead</code>, <code>score_batch</code>, <code>explain_lead</code>, <code>list_priority_leads</code>, <code>connect_source</code>, <code>sync_source</code>, <code>map_schema</code>, <code>push_scores</code>, <code>train_tenant_model</code>, <code>model_metrics</code>, <code>simulate_lead</code>, <code>record_outcome</code>.</li>
+          <li><b>Resources</b> — <code>leads://priority</code>, <code>model://metrics</code>, <code>schema://canonical</code>, <code>source://{id}/mapping</code>.</li>
+          <li><b>Prompts</b> — packaged workflows: triage today's pipeline, explain a lead to a rep, run a weekly pipeline review.</li>
+          <li><b>Transports</b> — stdio for local desktop use, streamable HTTP for a hosted deployment.</li>
+          <li><b>Safety</b> — write actions (<code>push_scores</code>, <code>sync_source</code>) declared as non-readonly so clients prompt before firing.</li>
+        </ul>
+        <div class="accept"><b>Built</b> &nbsp;<code>mcp_server/server.py</code> — 17 tools, 3 resources, 3 prompts, stdio + streamable HTTP, write tools annotated so clients confirm first.</div>
+      </div>
+
+      <div class="track">
+        <div class="track-head">
+          <span class="track-id">TRACK B</span>
+          <h3>Universal lead connectors</h3>
+        </div>
+        <p style="color:var(--ink-soft);font-size:.98rem">
+          One small protocol, many adapters. Adding a new CRM should be a single file,
+          not a refactor.
+        </p>
+        <ul>
+          <li><b>Protocol</b> — <code>fetch(since)</code>, <code>push_score(id, score)</code>, <code>schema()</code>, <code>test_connection()</code>.</li>
+          <li><b>Adapters</b> — HubSpot, Salesforce, Zoho, Pipedrive, Google Sheets, CSV upload, generic webhook. Ship two, document the interface, let contributors add the rest.</li>
+          <li><b>Sync engine</b> — cursor-based incremental pulls, exponential backoff, partial-failure recovery, per-source sync log.</li>
+          <li><b>Credentials</b> — OAuth where supported, encrypted at rest, never in the repo or in logs.</li>
+          <li><b>Writeback</b> — push the score and band into a custom CRM field so reps see it where they already work.</li>
+        </ul>
+        <div class="accept"><b>Built</b> &nbsp;<code>connectors/</code> — protocol plus CSV, Google Sheets, inline/webhook and HubSpot (with writeback, paging, and 429 backoff). A new adapter is one file.</div>
+      </div>
+
+      <div class="track">
+        <div class="track-head">
+          <span class="track-id">TRACK C</span>
+          <h3>Bring-your-own-data machine learning</h3>
+        </div>
+        <p style="color:var(--ink-soft);font-size:.98rem">
+          The hardest track, and the one that decides whether this is a real product or a
+          demo with connectors bolted on.
+        </p>
+        <ul>
+          <li><b>Canonical schema</b> — a CRM-agnostic lead: engagement, provenance, profile, intent, outcome. Every adapter maps into it.</li>
+          <li><b>Schema mapper</b> — fuzzy name matching plus type and cardinality heuristics, with an LLM assist for the leftovers, then a human confirmation screen. Never silently guesses.</li>
+          <li><b>Automated leakage detector</b> — flags any single feature that predicts the outcome almost perfectly, or any category whose conversion rate is above 95% or below 5%. This is Phase 1's discovery turned into a guardrail every customer gets.</li>
+          <li><b>Cold-start tiers</b> — see the table below. A customer with no labelled data still gets something useful on day one.</li>
+          <li><b>Per-tenant training</b> — scheduled retrains, champion/challenger comparison, automatic rollback when the challenger underperforms.</li>
+        </ul>
+        <div class="accept"><b>Built</b> &nbsp;<code>ml/canonical.py</code>, <code>ml/mapping.py</code>, <code>ml/leakage.py</code>, <code>ml/training.py</code>. The detector independently rediscovers the <code>Tags</code> leak; the mapper resolves renamed CRM columns and flags the rest.</div>
+      </div>
+
+      <div class="track">
+        <div class="track-head">
+          <span class="track-id">TRACK D</span>
+          <h3>Production platform</h3>
+        </div>
+        <p style="color:var(--ink-soft);font-size:.98rem">
+          The unglamorous half. Nothing here is novel; all of it is required.
+        </p>
+        <ul>
+          <li><b>Persistence</b> — Postgres with Alembic migrations: tenants, sources, leads, scores, outcomes, models, audit log.</li>
+          <li><b>Background jobs</b> — Redis + RQ for sync, batch scoring, and training. Long work must not block a request.</li>
+          <li><b>Multi-tenancy</b> — scoped API keys, row-level isolation, per-tenant model registry.</li>
+          <li><b>Deployment</b> — Dockerfile, docker-compose for the full stack, GitHub Actions for tests and image builds, health and readiness probes.</li>
+          <li><b>Hardening</b> — rate limiting, structured logging with request IDs, error tracking, graceful shutdown.</li>
+        </ul>
+        <div class="accept"><b>Built</b> &nbsp;SQLAlchemy models, API keys, encrypted credentials, rate limiting, request IDs, probes, Dockerfile, docker-compose with Postgres, GitHub Actions.</div>
+      </div>
+
+      <div class="track">
+        <div class="track-head">
+          <span class="track-id">TRACK E</span>
+          <h3>Decision intelligence — beyond a number</h3>
+        </div>
+        <p style="color:var(--ink-soft);font-size:.98rem">
+          A probability is not a decision. This track is where the product stops describing
+          leads and starts directing effort — and it's the strongest differentiator against
+          the scoring feature every CRM already ships.
+        </p>
+        <ul>
+          <li><b>Capacity-aware ranking</b> — a team that can make 50 calls a day wants the top 50 leads, not everything above 0.5. The fixed threshold is an arbitrary default worth removing.</li>
+          <li><b>Expected-value scoring</b> — rank by probability × deal value, so a 40% shot at a large account outranks an 80% shot at a small one.</li>
+          <li><b>Time-to-conversion</b> — survival modelling to answer "who is going cold?", not just "who is good?".</li>
+          <li><b>Next best action</b> — uplift modelling on historical touches: which leads actually respond to a call versus an email, rather than who converts anyway.</li>
+          <li><b>Score decay</b> — a lead scored on stale engagement should visibly lose confidence over time.</li>
+          <li><b>Segment thresholds</b> — different cut-offs per channel or region, tuned to each segment's base rate.</li>
+        </ul>
+        <div class="accept"><b>Built</b> &nbsp;<code>ml/decisions.py</code> — capacity ranking, expected value, score decay, segment thresholds, decile lift. Next-best-action ships rule-based and says so; uplift needs treatment data.</div>
+      </div>
+
+      <div class="track">
+        <div class="track-head">
+          <span class="track-id">TRACK F</span>
+          <h3>Trust, monitoring, and privacy</h3>
+        </div>
+        <p style="color:var(--ink-soft);font-size:.98rem">
+          Anything scoring real people needs to be auditable, and anything holding real
+          contact data needs to be defensible.
+        </p>
+        <ul>
+          <li><b>Drift monitoring</b> — population stability index per feature, alerting when input distributions move.</li>
+          <li><b>Calibration monitoring</b> — rolling Brier score and reliability curves against actual outcomes, so silent decay becomes visible.</li>
+          <li><b>Prediction log</b> — every score stored with its inputs, model version, and explanation. Required for "why was this lead deprioritised?".</li>
+          <li><b>Fairness review</b> — scores checked for disparity across country and city; documented, since the dataset carries geography.</li>
+          <li><b>Privacy</b> — PII encrypted at rest, excluded from logs, configurable retention and deletion, self-hosting as the default posture.</li>
+          <li><b>Model cards</b> — auto-generated per tenant model: training window, features, metrics, known limits.</li>
+        </ul>
+        <div class="accept"><b>Built</b> &nbsp;<code>ml/monitoring.py</code> — PSI drift, calibration/ECE, prediction log, audit trail, PII stripping. Fairness review and model cards are not built yet.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================ COLD START ============================ -->
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Track C detail</span>
+      <h2>Cold start: useful on day one, better by month three</h2>
+    </div>
+
+    <div class="col stack" style="margin-bottom: 24px;">
+      <p>
+        A new customer has zero labelled outcomes. Refusing to score until they accumulate
+        thousands is how a product dies during the trial. The tiers degrade honestly instead,
+        and the interface always says which tier is active.
+      </p>
+    </div>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th>Tier</th><th>Labelled leads</th><th>What runs</th><th>What the user is told</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>0 · Generic</b></td>
+            <td class="num">0</td>
+            <td>Phase 1 base model over mapped fields, plus engagement heuristic</td>
+            <td>"Generic scoring — not yet trained on your data"</td>
+          </tr>
+          <tr>
+            <td><b>1 · Recalibrated</b></td>
+            <td class="num">1 – 500</td>
+            <td>Base model, isotonic recalibration on their outcomes</td>
+            <td>"Tuned to your conversion rate"</td>
+          </tr>
+          <tr>
+            <td><b>2 · Tenant model</b></td>
+            <td class="num">500 – 5,000</td>
+            <td>Their own ensemble, base model as challenger, best wins</td>
+            <td>"Trained on your pipeline" + holdout metrics</td>
+          </tr>
+          <tr class="highlight">
+            <td><b>3 · Continuous</b></td>
+            <td class="num">5,000+</td>
+            <td>Scheduled retrains, hyperparameter search, drift-triggered refresh</td>
+            <td>Full model card, trend charts, retrain history</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================ MCP SHAPE ============================ -->
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Track A detail</span>
+      <h2>What the setup actually looks like</h2>
+    </div>
+
+    <div class="col stack" style="margin-bottom: 22px;">
+      <p>
+        The whole promise of Phase 2 compresses into this: clone, start, add one config
+        block, then talk to your pipeline in plain language.
+      </p>
+    </div>
+
+    <div class="grid-2">
+      <div class="stack-tight">
+        <span class="eyebrow">Client configuration</span>
+        <pre><span class="c">// .mcp.json — or Claude Desktop config</span>
+{
+  <span class="k">"mcpServers"</span>: {
+    <span class="k">"lead-scoring"</span>: {
+      <span class="k">"command"</span>: "uv",
+      <span class="k">"args"</span>: ["run", "lead-mcp"],
+      <span class="k">"env"</span>: {
+        <span class="k">"LEAD_API_URL"</span>: "http://localhost:8000",
+        <span class="k">"LEAD_API_KEY"</span>: "sk-..."
+      }
+    }
+  }
+}</pre>
+      </div>
+
+      <div class="stack-tight">
+        <span class="eyebrow">What the user then says</span>
+        <pre><span class="c">→ "Connect my HubSpot account."</span>
+   connect_source · map_schema
+   <span class="c">2 fields need confirmation</span>
+
+<span class="c">→ "Who should I call today? I have
+   time for 20."</span>
+   list_priority_leads(n=20)
+   <span class="c">ranked by expected value</span>
+
+<span class="c">→ "Why is Priya ranked third?"</span>
+   explain_lead
+   <span class="c">+12.4 pts pricing page views
+   −3.1 pts no reply in 9 days</span>
+
+<span class="c">→ "Push these scores back to HubSpot."</span>
+   push_scores <span class="c">· confirms first</span></pre>
+      </div>
+    </div>
+
+    <div class="callout is-accent" style="margin-top: 24px;">
+      <h4>Why MCP is the right bet here</h4>
+      <p>
+        Lead triage is a conversation, not a dashboard. A rep's real question is "who do I
+        call and what do I say" — which needs ranking, explanation, and context stitched
+        together on the fly. Exposing the engine as tools lets the assistant compose those
+        steps, instead of you predicting every screen a user might want.
+      </p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================ MILESTONES ============================ -->
+  <section>
+    <div class="sec-head">
+      <span class="chip chip-shipped">Delivered</span>
+      <h2>Milestones</h2>
+    </div>
+
+    <div class="col stack" style="margin-bottom: 20px;">
+      <p>
+        Numbered because these genuinely are sequential. All four are implemented; the
+        effort figures are the original estimates, kept for reference.
+      </p>
+    </div>
+
+    <div class="rail">
+      <div class="ms">
+        <div class="ms-meta">
+          <span class="ms-num">2.1</span>
+          <span class="ms-eff">4–6 weeks</span>
+        </div>
+        <div class="ms-body">
+          <h3>Connect &amp; Score</h3>
+          <p>
+            Real leads flow in from somewhere other than a form field. Canonical schema,
+            connector protocol, two working adapters, Postgres, batch scoring, API keys.
+          </p>
+          <p class="ms-ships"><b>Ships:</b> point it at a Google Sheet or HubSpot export and get back a ranked, stored, explainable list.</p>
+        </div>
+      </div>
+
+      <div class="ms">
+        <div class="ms-meta">
+          <span class="ms-num">2.2</span>
+          <span class="ms-eff">3–4 weeks</span>
+        </div>
+        <div class="ms-body">
+          <h3>Agent-Native</h3>
+          <p>
+            The MCP server over the Phase 2.1 core — tools, resources, prompts, both
+            transports — plus CRM writeback and the priority queue.
+          </p>
+          <p class="ms-ships"><b>Ships:</b> the README demo becomes a conversation in Claude Desktop against a real pipeline.</p>
+        </div>
+      </div>
+
+      <div class="ms">
+        <div class="ms-meta">
+          <span class="ms-num">2.3</span>
+          <span class="ms-eff">5–7 weeks</span>
+        </div>
+        <div class="ms-body">
+          <h3>Learns From You</h3>
+          <p>
+            Schema auto-mapping, the leakage detector, cold-start tiers, per-tenant training,
+            the outcome feedback loop, drift and calibration monitoring.
+          </p>
+          <p class="ms-ships"><b>Ships:</b> the system stops being one model served to everyone and becomes each customer's own model.</p>
+        </div>
+      </div>
+
+      <div class="ms">
+        <div class="ms-meta">
+          <span class="ms-num">2.4</span>
+          <span class="ms-eff">3–4 weeks</span>
+        </div>
+        <div class="ms-body">
+          <h3>Ship It</h3>
+          <p>
+            Docker Compose, CI/CD, rate limiting, audit log, model cards, the rebuilt
+            dashboard, and documentation good enough for a stranger to succeed alone.
+          </p>
+          <p class="ms-ships"><b>Ships:</b> a public repo someone can clone on a Saturday and have running against their CRM before lunch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================ RISKS ============================ -->
+  <section>
+    <div class="sec-head">
+      <span class="chip chip-risk">Risks</span>
+      <h2>What could go wrong, and the plan for it</h2>
+    </div>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th style="width:30%">Risk</th><th>Mitigation</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Customers train on leaky columns</b><br><span style="color:var(--muted);font-size:.86rem">Every CRM has a post-outcome status field</span></td>
+            <td>Automated leakage detector gates every training run; suspicious features are quarantined and surfaced for confirmation, never used silently.</td>
+          </tr>
+          <tr>
+            <td><b>Too little data to train</b></td>
+            <td>Cold-start tiers with a hard minimum before a tenant model is promoted; the base model keeps serving until then, clearly labelled.</td>
+          </tr>
+          <tr>
+            <td><b>Schema mapping guesses wrong</b></td>
+            <td>Mapper proposes with confidence scores; a human confirms before first training. Mappings are versioned and reversible.</td>
+          </tr>
+          <tr>
+            <td><b>CRM rate limits and API drift</b></td>
+            <td>Cursor-based incremental sync, exponential backoff, per-adapter conformance tests pinned to API versions.</td>
+          </tr>
+          <tr>
+            <td><b>PII handling</b></td>
+            <td>Self-hosted by default, encryption at rest, PII excluded from logs and from features, configurable retention and hard delete.</td>
+          </tr>
+          <tr>
+            <td><b>Silent model decay</b></td>
+            <td>Drift and calibration monitors with alerting; scheduled retrains; automatic rollback when a challenger underperforms.</td>
+          </tr>
+          <tr>
+            <td><b>Scope outruns one developer</b></td>
+            <td>Milestone gates — each one ships something usable. Two adapters, not seven; document the interface and let contributors extend it.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================ SUCCESS ============================ -->
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Definition of done</span>
+      <h2>How to know Phase 2 worked</h2>
+    </div>
+
+    <div class="grid-2">
+      <div class="card stack-tight">
+        <h4>Adoption</h4>
+        <p style="font-size:.95rem;color:var(--ink-soft)">
+          Under 15 minutes from <code>git clone</code> to a first score against the user's
+          own CRM, without reading source code.
+        </p>
+      </div>
+      <div class="card stack-tight">
+        <h4>Model quality</h4>
+        <p style="font-size:.95rem;color:var(--ink-soft)">
+          Tenant models beat the base model on their own holdout for most customers with
+          Tier 2 data or better.
+        </p>
+      </div>
+      <div class="card stack-tight">
+        <h4>Business lift</h4>
+        <p style="font-size:.95rem;color:var(--ink-soft)">
+          Top-decile conversion at least 3× the base rate — the number that justifies
+          changing how a sales team works.
+        </p>
+      </div>
+      <div class="card stack-tight">
+        <h4>Calibration</h4>
+        <p style="font-size:.95rem;color:var(--ink-soft)">
+          Brier below 0.15 and expected calibration error below 0.05, so a 70% score
+          means roughly 70%.
+        </p>
+      </div>
+      <div class="card stack-tight">
+        <h4>Performance</h4>
+        <p style="font-size:.95rem;color:var(--ink-soft)">
+          p95 under 200 ms for a single score; 10,000 leads scored in under 30 seconds.
+        </p>
+      </div>
+      <div class="card stack-tight">
+        <h4>Reliability</h4>
+        <p style="font-size:.95rem;color:var(--ink-soft)">
+          A failing CRM sync never takes scoring down; degraded modes are visible in
+          <code>/health</code>, never silent.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================ PHASE 3 ============================ -->
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Deliberately out of scope</span>
+      <h2>Phase 3 horizon</h2>
+    </div>
+
+    <div class="col stack">
+      <p>
+        Worth naming so they don't creep into Phase 2 and stall it. Each assumes Phase 2
+        is already running against real pipelines.
+      </p>
+      <ul class="plain" style="margin-top: 8px;">
+        <li><b>Hosted multi-tenant SaaS</b> — billing, org management, SOC 2 posture.</li>
+        <li><b>Conversation intelligence</b> — score from call transcripts and email threads, not just form and clickstream data.</li>
+        <li><b>Marketplace adapters</b> — community-contributed connectors with a certification process.</li>
+        <li><b>Automated outreach</b> — draft the first-touch message, with a human approving every send.</li>
+        <li><b>Account-based scoring</b> — roll lead scores up to company level for B2B pipelines.</li>
+        <li><b>Causal experimentation</b> — built-in holdout groups to measure whether the scoring changed revenue, not just ranking.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    Intelligent Lead Scoring System · Phase 1 and Phase 2 implemented · Roadmap v2
+  </footer>
+
+</div>
